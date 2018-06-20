@@ -1,0 +1,37 @@
+_currentarch="x86_64"
+#_currentarch="i686"
+_pkgnativename=nana
+pkgname="mingw-w64-${_currentarch}-${_pkgnativename}"
+pkgver=1.6.0
+pkgrel=1
+pkgdesc="An opensource cross-platform GUI library written in modern C++11 for static linking"
+arch=("${_currentarch}")
+url="http://nanapro.org/en-us/"
+license=("custom:Boost Software License")
+makedepends=("mingw-w64-x86_64-cmake")
+source=("http://downloads.sourceforge.net/project/nanapro/Nana/Nana 1.x/${_pkgnativename} ${pkgver}.zip")
+sha256sums=('19542d0c1f7a879232e7b44b4526a10e5ee8029908f13d03eff501d847c69b29')
+
+prepare() {
+    cd ${srcdir}/${_pkgnativename}
+}
+
+build() {
+    cd ${srcdir}/${_pkgnativename}
+
+    cmake \
+		-G"MSYS Makefiles" \
+		-DCMAKE_C_COMPILER=gcc \
+		-DCMAKE_CXX_COMPILER=g++ \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=/usr \
+        -DNANA_CMAKE_NANA_FILESYSTEM_FORCE=YES \
+
+    make
+}
+
+package() {
+    cd ${srcdir}/${_pkgnativename}
+
+    make DESTDIR="${pkgdir}" install
+}
