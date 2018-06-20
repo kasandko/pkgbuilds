@@ -1,0 +1,20 @@
+pkgname=mockup
+pkgver=0.0.9
+pkgrel=1
+pkgdesc="A tool to quickly design desktop applications GUIs"
+arch=('x86_64')
+url="https://launchpad.net/${pkgname}"
+license=('GPL')
+makedepends=('autogen' 'gnome-common')
+source=("${url}/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.xz")
+sha256sums=('85ee7116fa245e8620ad6acb9471d4594afd8f9f1f268c44ffd8bf204776dd92')
+
+build() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    ./autogen.sh
+}
+
+package() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    make "LIBS=-L/usr/lib/x86_64-linux-gnu -lm" DESTDIR="$pkgdir" install
+}
