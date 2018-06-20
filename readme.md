@@ -5,6 +5,10 @@ Different pkgbuilds for pacman based systems.
 ## Arch Linux ##
 
 * **Mockup** - A tool to quickly design desktop applications GUIs. [PKGBUILD](archlinux/mockup/PKGBUILD) [site](https://launchpad.net/mockup)
+* **Nuklear** - A single-header ANSI C gui library. [PKGBUILD](archlinux/nuklear/PKGBUILD) [site](http://sol.gfxile.net/nuklear/index.html)
+* **RarVM Toolchain** [PKGBUILD](archlinux/rarvmtools/PKGBUILD) [site](https://github.com/taviso/rarvmtools)
+* **UEFI Shell** (install to /boot) [PKGBUILD](archlinux/uefi-shell-git/PKGBUILD)
+* **Yaourt fix** [PKGBUILD](archlinux/yaourt-fix/PKGBUILD)
 
 ## MSYS2 ##
 

@@ -1,0 +1,26 @@
+pkgname=rarvmtools
+pkgver=0.0.1
+pkgrel=1
+pkgdesc="RarVM Toolchain"
+arch=('x86_64')
+url="https://github.com/taviso/rarvmtools"
+license=("GPL")
+depends=('unrar')
+makedepends=('git')
+source=('git+https://github.com/taviso/rarvmtools.git')
+md5sums=('SKIP')
+
+build() {
+  cd "${srcdir}/rarvmtools"
+  make raras rarld
+}
+
+package() {
+  cd "${srcdir}/rarvmtools"
+  mkdir -p $pkgdir/usr/bin/
+  install raras $pkgdir/usr/bin/raras
+  install rarld $pkgdir/usr/bin/rarld
+  
+  mkdir -p $pkgdir/usr/rarvm/include/
+  install stdlib/* $pkgdir/usr/rarvm/include/
+}

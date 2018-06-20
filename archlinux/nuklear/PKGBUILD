@@ -1,0 +1,26 @@
+name=Nuklear
+pkgname=nuklear
+commit=1503
+pkgver=1.0.${commit}
+pkgrel=1
+pkgdesc="A single-header ANSI C gui library"
+arch=('x86_64')
+url="http://sol.gfxile.net/${pkgname}/index.html"
+license=('MIT', 'Public Domain')
+source=("git+https://github.com/vurtun/${pkgname}.git")
+md5sums=('SKIP')
+
+package() {
+  cd "${srcdir}/${pkgname}"
+  
+  echo ${srcdir}
+  echo ${pkgdir}
+  
+  mkdir -p ${pkgdir}/usr/include/${pkgname}/
+  install ./nuklear.h ${pkgdir}/usr/include/${pkgname}/
+  
+  mkdir -p ${pkgdir}/opt/${pkgname}/
+  cp -r ./* ${pkgdir}/opt/${pkgname}/
+  rm ${pkgdir}/opt/${pkgname}/nuklear.h
+  ln -s ../../usr/include/${pkgname}/nuklear.h ${pkgdir}/opt/${pkgname}/nuklear.h
+}

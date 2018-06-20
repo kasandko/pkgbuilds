@@ -1,0 +1,12 @@
+pkgname=yaourt-fix
+pkgver=0.0.1
+pkgrel=1
+pkgdesc="yaourt fix"
+arch=('x86_64')
+license=("GPL")
+depends=('yaourt')
+
+package() {
+  mkdir -p $pkgdir/usr/lib/
+  ln -s /usr/lib/libalpm.so $pkgdir/usr/lib/libalpm.so.10
+}
