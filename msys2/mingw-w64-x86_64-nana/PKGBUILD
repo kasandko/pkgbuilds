@@ -1,11 +1,11 @@
-_currentarch="x86_64"
-#_currentarch="i686"
+_mingw_platform="x86_64"
+#_mingw_platform="i686"
 _pkgnativename=nana
-pkgname="mingw-w64-${_currentarch}-${_pkgnativename}"
+pkgname="mingw-w64-${_mingw_platform}-${_pkgnativename}"
 pkgver=1.6.0
 pkgrel=1
 pkgdesc="An opensource cross-platform GUI library written in modern C++11 for static linking"
-arch=("${_currentarch}")
+arch=("${_mingw_platform}")
 url="http://nanapro.org/en-us/"
 license=("custom:Boost Software License")
 makedepends=("mingw-w64-x86_64-cmake")
