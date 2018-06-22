@@ -1,21 +1,23 @@
-mingw_platform='x86_64'
-pkgname=mingw-w64-${mingw_platform}-mockup
+_mingw_platform='x86_64'
+#_mingw_platform='i686'
+_pkgnativename=mockup
+pkgname="mingw-w64-${_mingw_platform}-${_pkgnativename}"
 pkgver=0.0.9
 pkgrel=1
 pkgdesc="A tool to quickly design desktop applications GUIs"
-arch=("${mingw_platform}")
-url="https://launchpad.net/${pkgname}"
+arch=("${_mingw_platform}")
+url="https://launchpad.net/${_pkgnativename}"
 license=('GPL')
-makedepends=('autogen' "mingw-w64-${mingw_platform}-gnome-common")
-source=("${url}/trunk/${pkgver}/+download/${pkgname}-${pkgver}.tar.xz")
+makedepends=('automake-wrapper' 'autogen' "mingw-w64-${_mingw_platform}-gnome-common")
+source=("${url}/trunk/${pkgver}/+download/${_pkgnativename}-${pkgver}.tar.xz")
 sha256sums=('85ee7116fa245e8620ad6acb9471d4594afd8f9f1f268c44ffd8bf204776dd92')
 
 build() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd "${srcdir}/${_pkgnativename}-${pkgver}"
     ./autogen.sh
 }
 
 package() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd "${srcdir}/${_pkgnativename}-${pkgver}"
     make "LIBS=-lm" DESTDIR="$pkgdir" install
 }
