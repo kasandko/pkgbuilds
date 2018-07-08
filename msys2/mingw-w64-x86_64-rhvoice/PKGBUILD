@@ -1,0 +1,26 @@
+_mingw_platform='x86_64'
+#_mingw_platform='i686'
+_pkgnativename=rhvoice
+_rname=RHVoice
+pkgname="mingw-w64-${_mingw_platform}-${_pkgnativename}"
+pkgver=20180518
+pkgrel=1
+pkgdesc="A free and open source speech synthesizer for Russian language."
+arch=("${_mingw_platform}")
+url="https://github.com/Olga-Yakovleva/${_rnsme}"
+license=('LGPL')
+#"mingw-w64-${_mingw_platform}-gnome-common"
+makedepends=('scons' 'pkg-config' 'gcc' 'git')
+source=("git+https://github.com/Olga-Yakovleva/${_rname}.git")
+md5sums=('SKIP')
+
+#build() {
+#    cd "${srcdir}/${_rname}"
+#    ./autogen.sh
+#}
+
+package() {
+    cd "${srcdir}/${_rname}"
+	scons
+	scons install --prefix="$pkgdir"
+}
