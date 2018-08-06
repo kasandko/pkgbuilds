@@ -1,0 +1,66 @@
+_prgname=RHVoice
+_platform=x86_64
+#_platform=i686
+pkgname=mingw-w64-$_prgname
+pkgver=20180806
+pkgrel=1
+pkgdesc="Free and open source speech synthesizer for Russian and other languages"
+arch=($_platform)
+url="https://github.com/Olga-Yakovleva/RHVoice"
+license=('GPL3')
+depends=('mingw-w64-mpfr' 'mingw-w64-pkg-config')
+makedepends=('scons' 'git')
+optdepends=('mingw-w64-libao: audio library')
+provides=('rhvoice' "mingw-w64-${_platform}-RHVoice")
+replaces=('rhvoice' "mingw-w64-${_platform}-RHVoice")
+backup=('etc/RHVoice/RHVoice.conf')
+source=("git+https://github.com/Olga-Yakovleva/${_prgname}.git")
+md5sums=('SKIP')
+
+_mingwdir=/usr/${_platform}-w64-mingw32
+
+build() {
+    cd "$srcdir/$_prgname"
+    
+    declare -a patches
+    patches=(
+        "${srcdir}/../MinGW_${_platform}.patch"
+#        "${srcdir}/../SConstruct.patch"
+    )
+    
+    msg2 "Patching source"
+    for p in ${patches[@]}; do
+        msg2 "Applying patch: $p"
+        patch -p1 -i "$p" --binary
+    done
+    
+    msg "Starting build..."
+    scons \
+        CXX="${_platform}-w64-mingw32-g++" \
+        CC="${_platform}-w64-mingw32-gcc" \
+        CPPPATH64="/usr/${_mingwdir}/include/" \
+        LIBPATH64="/usr/${_mingwdir}/lib/" \
+        prefix="/usr/${_mingwdir}/" \
+        sysconfdir="/etc"
+}
+
+package() {
+    echo "Installing package"
+    cd "$srcdir/$_prgname"
+    
+    mkdir -p $pkgdir/$_mingwdir/lib
+    mkdir -p $pkgdir/$_mingwdir/include
+    mkdir -p $pkgdir/$_mingwdir/lib/speech-dispatcher-modules
+    mkdir -p $pkgdir/etc/RHVoice
+    mkdir -p $pkgdir/$_mingwdir/share/RHVoice
+    
+    install -D build/linux/sd_module/sd_rhvoice.exe "${pkgdir}/${_mingwdir}/lib/speech-dispatcher-modules/"
+    install -D -m 644 config/RHVoice.conf "${pkgdir}/etc/RHVoice/"
+    cp -R config/dicts/ "$pkgdir/etc/RHVoice/"
+    install -m 644 build/linux/lib/libRHVoice.so "${pkgdir}/${_mingwdir}/lib/libRHVoice.dll"
+    install -m 644 build/linux/core/libRHVoice_core.so "${pkgdir}/${_mingwdir}/lib/ibRHVoice_core.dll"
+    install -m 644 build/linux/audio/libRHVoice_audio.so "${pkgdir}/${_mingwdir}/lib/libRHVoice_audio.dll"
+    install -m 644 src/include/RHVoice.h "${pkgdir}/${_mingwdir}/include/"
+    cp -R data/*  "${pkgdir}/${_mingwdir}/share/RHVoice"
+    rm "${pkgdir}/${_mingwdir}/share/RHVoice/SConscript"
+}

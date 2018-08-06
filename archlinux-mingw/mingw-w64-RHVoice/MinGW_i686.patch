@@ -1,0 +1,29 @@
+diff --git a/SConstruct b/SConstruct
+index 53f3427..26ef769 100644
+--- a/SConstruct
++++ b/SConstruct
+@@ -35,13 +35,13 @@ def get_version(is_release):
+ 
+ def CheckPKGConfig(context):
+     context.Message("Checking for pkg-config... ")
+-    result=context.TryAction("pkg-config --version")[0]
++    result=context.TryAction("i686-w64-mingw32-pkg-config --version")[0]
+     context.Result(result)
+     return result
+ 
+ def CheckPKG(context,name):
+     context.Message("Checking for {}... ".format(name))
+-    result=context.TryAction("pkg-config --exists '{}'".format(name))[0]
++    result=context.TryAction("i686-w64-mingw32-pkg-config --exists '{}'".format(name))[0]
+     context.Result(result)
+     return result
+ 
+@@ -124,6 +124,8 @@ def create_user_vars():
+     vars.Add("CFLAGS","C compiler flags",[],converter=convert_flags)
+     vars.Add("CXXFLAGS","C++ compiler flags",[],converter=convert_flags)
+     vars.Add("LINKFLAGS","Linker flags",["/LTCG","/OPT:REF","/OPT:ICF"] if sys.platform=="win32" else [],converter=convert_flags)
++    vars.Add("CXX", "C++ compiler", "g++")
++    vars.Add("CC", "C compiler", "gcc")
+     return vars
+ 
+ def create_base_env(user_vars):

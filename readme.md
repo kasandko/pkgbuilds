@@ -10,6 +10,10 @@ Different pkgbuilds for pacman based systems.
 * **UEFI Shell** (install to /boot) [PKGBUILD](archlinux/uefi-shell-git/PKGBUILD)
 * **Yaourt fix** [PKGBUILD](archlinux/yaourt-fix/PKGBUILD)
 
+## Arch Linux MinGW ##
+
+* **RHVoice** - A free and open source speech synthesizer for Russian language. [PKGBUILD](archlinux-mingw/mingw-w64-RHVoice/PKGBUILD) [site](https://github.com/Olga-Yakovleva/RHVoice)
+
 ## MSYS2 ##
 
 * **Mockup** - A tool to quickly design desktop applications GUIs. [PKGBUILD](msys2/mingw-w64-x86_64-mockup/PKGBUILD) [site](https://launchpad.net/mockup)

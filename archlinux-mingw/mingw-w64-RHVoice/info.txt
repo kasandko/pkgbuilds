@@ -1,0 +1,10 @@
+Assembly CMD after patching:
+scons CXX="x86_64-w64-mingw32-g++" CC="x86_64-w64-mingw32-gcc" CPPPATH64="/usr/x86_64-w64-mingw32/include/" LIBPATH64="/usr/x86_64-w64-mingw32/lib/"
+
+
+Depends:
+| ArchLinux MinGW      | MSYS2 MinGW                 |
+|:--------------------:|:---------------------------:|
+| mingw-w64-mpfr       | mingw-w64-x86_64-mpfr       |
+| mingw-w64-libao      | mingw-w64-x86_64-libao      |
+| mingw-w64-pkg-config | mingw-w64-x86_64-pkg-config |
