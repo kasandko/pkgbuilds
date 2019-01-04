@@ -1,0 +1,21 @@
+--- SConstruct.orig
++++ /RHVoice/SConstruct
+@@ -205,7 +205,7 @@ def clone_base_env(base_env,user_vars,arch=None):
+             env.Tool("xp_compat")
+     if "gcc" in env["TOOLS"]:
+         env.MergeFlags("-pthread")
+-        env.AppendUnique(CXXFLAGS=["-std=c++03"])
++        env.AppendUnique(CXXFLAGS=["-std=c++11"])
+         env.AppendUnique(CFLAGS=["-std=c99"])
+     if sys.platform=="win32":
+         bits="64" if arch.endswith("64") else "32"
+@@ -261,7 +261,7 @@ def configure(env):
+             env["audio_libs"].add("portaudio")
+         if env["audio_libs"]:
+             conf.CheckSpdVersion()
+-#        has_giomm=conf.CheckPKG("giomm-2.4")
++        has_giomm=conf.CheckPKG("giomm-2.4")
+     if env["PLATFORM"]=="win32":
+         env.AppendUnique(LIBS="kernel32")
+     conf.Finish()
+
