@@ -1,0 +1,13 @@
+pkgname=archlinux-logo-icons
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="ArchLinux logo icons"
+arch=('x86_64' 'i686')
+license=('MIT')
+
+package() {
+  cd "${srcdir}/../logos"
+  
+  mkdir -p ${pkgdir}/usr/share/pixmaps/archlinux
+  cp -r ./* ${pkgdir}/usr/share/pixmaps/archlinux
+}
