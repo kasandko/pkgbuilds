@@ -1,0 +1,22 @@
+pkgname=mingw-w64-gdb-7-bin
+pkgver=7.6.1
+pkgrel=1
+pkgdesc="The GNU Debugger (mingw-w64)"
+arch=('any')
+license=('GPL')
+depends=('mingw-w64-libgcc-6-bin' 'mingw-w64-zlib')
+url="https://sourceforge.net/projects/mingw"
+source=(
+    "${url}/files/MinGW/Extension/gdb/gdb-${pkgver}-1/gdb-${pkgver}-1-mingw32-bin.tar.lzma"
+)
+md5sums=('ce03b705c4030ff2883bad828df93c2b')
+_architectures="i686-w64-mingw32"
+
+package () {
+    for _arch in ${_architectures}; do
+        cd "${srcdir}/"
+        install -d "${pkgdir}/usr/${_arch}"
+        cp -R ./bin "${pkgdir}/usr/${_arch}"
+        cp -R ./share "${pkgdir}/usr/${_arch}"
+    done
+}
