@@ -1,0 +1,105 @@
+_pkgname=sfml
+_android_arch=armv7a-eabi
+
+pkgname=android-$_android_arch-$_pkgname
+pkgver=2.5.0.r99.gbd51c4a7
+pkgrel=1
+pkgdesc="A simple, fast, cross-platform, and object-oriented multimedia API (for Android $_android_arch)"
+arch=('any')
+url="http://www.sfml-dev.org/"
+license=('zlib')
+depends=('android-ndk')
+makedepends=('cmake' 'git')
+provides=("android-$_android_arch-$_pkgname")
+conflicts=("android-$_android_archh-$_pkgname")
+replaces=("android-$_android_arch-$_pkgname")
+#options=('debug')
+
+options=(!strip)
+
+source=("git+https://github.com/acsbendi/SFML")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/SFML"
+  git describe --long --tags | sed -r 's/([^-]*-g)/r\1/;s/-/./g'
+}
+
+prepare() {
+    cd "$srcdir/SFML"
+    source android-env ${_android_arch}
+    
+#     patterns_to_remove=(src CMakeFiles lib SFML* CMake* Makefile install* cmake*)
+#     for ptr in ${patterns_to_remove[@]} ; do
+#         rm -rf ${ptr}
+#     done
+}
+
+build() {
+    cd "$srcdir/SFML"
+    source android-env ${_android_arch}
+    
+    cmake \
+        -DCMAKE_INSTALL_PREFIX=${ANDROID_PREFIX} \
+        -DANDROID_ABI=${ANDROID_ABI} \
+        -DANDROID_PLATFORM=${ANDROID_NDK_PLATFORM} \
+        -DCMAKE_TOOLCHAIN_FILE=${ANDROID_NDK_HOME}/build/cmake/android.toolchain.cmake \
+        -DCMAKE_ANDROID_NDK_TOOLCHAIN_VERSION=clang \
+        -DCMAKE_SYSTEM_NAME=Android \
+        -DCMAKE_ANDROID_NDK=${ANDROID_NDK_HOME} \
+        -DCMAKE_ANDROID_STL_TYPE=c++_static \
+        .
+        
+        # For debug version.
+#         -DCMAKE_BUILD_TYPE=Debug \
+        
+    make
+}
+
+package() {
+    cd "$srcdir/SFML"
+    source android-env ${_android_arch}
+    
+    # Not work correctly.
+#     make INSTALL_ROOT=${pkgdir} install
+
+    # For debug version.
+#     source_libs=(
+#         libsfml-activity-d.so
+#         libsfml-audio-d.so
+#         libsfml-graphics-d.so
+#         libsfml-network-d.so
+#         libsfml-main-d.a
+#         libsfml-system-d.so
+#         libsfml-window-d.so
+#     )
+    
+    source_libs=(
+        libsfml-activity.so
+        libsfml-audio.so
+        libsfml-graphics.so
+        libsfml-network.so
+        libsfml-main.a
+        libsfml-system.so
+        libsfml-window.so
+    )
+    
+    destination_libs=(
+        libsfml-activity.so
+        libsfml-audio.so
+        libsfml-graphics.so
+        libsfml-network.so
+        libsfml-main.a
+        libsfml-system.so
+        libsfml-window.so
+    )
+    
+    for index in ${!source_libs[*]}; do
+        install -Dm644 ./lib/${source_libs[index]} ${pkgdir}${ANDROID_PREFIX_LIB}/${destination_libs[index]}
+    done
+
+    find ${pkgdir}/${ANDROID_PREFIX_LIB} -type f -name 'lib*.so' -exec ${ANDROID_STRIP} -g --strip-unneeded {} \;
+    
+    mkdir -p ${pkgdir}${ANDROID_PREFIX_INCLUDE}
+    cp -R ./include/SFML ${pkgdir}${ANDROID_PREFIX_INCLUDE}
+}

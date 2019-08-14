@@ -1,0 +1,20 @@
+pkgname=mingw-w64-libgcc-6-bin
+pkgver=6.3.0
+pkgrel=1
+pkgdesc="A GCC low-level runtime library (mingw-w64)"
+arch=('any')
+license=('GPL')
+url="https://sourceforge.net/projects/mingw"
+source=(
+    "${url}/files/MinGW/Base/gcc/Version6/gcc-${pkgver}/libgcc-${pkgver}-1-mingw32-dll-1.tar.xz"
+)
+md5sums=('4507c8a455a128b26ddd190fdd6936ad')
+_architectures="i686-w64-mingw32"
+
+package () {
+    for _arch in ${_architectures}; do
+        cd "${srcdir}/"
+        install -d "${pkgdir}/usr/${_arch}"
+        cp -R ./bin "${pkgdir}/usr/${_arch}"
+    done
+}
