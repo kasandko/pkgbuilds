@@ -1,0 +1,78 @@
+# TODO:
+# 1) Make empy as package ("pip install empy")
+# 2) Patch cmake/catkin_generate_environment.cmake for MinGW
+
+# Script generated with import_catkin_packages.py.
+# For more information: https://github.com/bchretien/arch-ros-stacks.
+pkgdesc="ROS - Low-level build system macros and infrastructure for ROS."
+url='https://www.wiki.ros.org/catkin'
+
+_python_ver=3.8
+pkgname='ros-melodic-catkin'
+pkgver='0.7.19'
+arch=('any')
+pkgrel=1
+license=('BSD')
+
+ros_makedepends=(
+)
+
+makedepends=(
+	"${MINGW_PACKAGE_PREFIX}-cmake"
+	${ros_makedepends[@]}
+	python-catkin_pkg
+	#python-empy
+	python
+)
+
+ros_depends=(
+)
+
+depends=(
+	${ros_depends[@]}
+	"${MINGW_PACKAGE_PREFIX}-python3-nose"
+	"${MINGW_PACKAGE_PREFIX}-gtest"
+	python-catkin_pkg
+	#python-empy
+	#gmock
+	python
+	ros-build-tools-py3
+)
+
+_dir="catkin-${pkgver}"
+source=("${pkgname}-${pkgver}.tar.gz"::"https://github.com/ros/catkin/archive/${pkgver}.tar.gz")
+sha256sums=('b83d66640df99f72bc37160e8b60a76df6c87ff8dcbb9ab096911c44f08d13e1')
+
+build() {
+	# Use ROS environment variables.
+	source ${MSYSTEM_PREFIX}/share/ros-build-tools/clear-ros-env.sh
+	[ -f /opt/ros/melodic/setup.bash ] && source /opt/ros/melodic/setup.bash
+
+	# Create the build directory.
+	[ -d ${srcdir}/build ] || mkdir ${srcdir}/build
+	cd ${srcdir}/build
+
+	# Fix Python2/Python3 conflicts.
+	${MSYSTEM_PREFIX}/share/ros-build-tools/fix-python-scripts.sh -v 3 ${srcdir}/${_dir}
+
+	# Build the project.
+	MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+	${MINGW_PREFIX}/bin/cmake \
+		-G"MSYS Makefiles" \
+		${srcdir}/${_dir} \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_HOST_UNIX=true \
+		-DCATKIN_BUILD_BINARY_PACKAGE=OFF \
+		-DCMAKE_INSTALL_PREFIX=/opt/ros/melodic \
+		-DPYTHON_EXECUTABLE="${MSYSTEM_PREFIX}/bin/python3" \
+		-DPYTHON_INCLUDE_DIR="${MSYSTEM_PREFIX}/include/python${_python_ver}" \
+		-DPYTHON_LIBRARY="${MSYSTEM_PREFIX}/bin/libpython${_python_ver}.dll" \
+		-DPYTHON_BASENAME=.cpython-38 \
+		-DSETUPTOOLS_DEB_LAYOUT=OFF
+	mingw32-make
+}
+
+package() {
+	cd "${srcdir}/build"
+	make DESTDIR="${pkgdir}/" install
+}

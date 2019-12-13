@@ -23,7 +23,12 @@ Different pkgbuilds for pacman based systems.
 * **Nana** - Cross-platform GUI library written in modern C++11. [PKGBUILD](msys2/mingw-w64-x86_64-nana/PKGBUILD) [site](http://nanapro.org/en-us/)
 * **Pygubu** - A simple GUI designer for the python tkinter module. [PKGBUILD](msys2/python-pygubu/PKGBUILD) [site](https://github.com/alejandroautalan/pygubu)
 * **RHVoice** - A free and open source speech synthesizer for Russian language. **(Not tested!)** [PKGBUILD](msys2/mingw-w64-x86_64-rhvoice/PKGBUILD) [site](https://github.com/Olga-Yakovleva/RHVoice)
+* ***ROS*** - ROS Melodic for MSYS2/MinGW
+    * **python-catkin_pkg** - catkin package library. [PKGBUILD](msys2/ROS/python-catkin_pkg/PKGBUILD) [site](http://wiki.ros.org/catkin_pkg)
+    * **ros-build-tools-py3** - Utilities for building Arch packages for ROS stacks. [PKGBUILD](msys2/ROS/ros-build-tools-py3/PKGBUILD) [site](https://github.com/ros-melodic-arch/ros-build-tools-py3)
+    * **ros-melodic-catkin** - ROS - Low-level build system macros and infrastructure for ROS. **(Doesn't build!)** [PKGBUILD](msys2/ROS/ros-melodic-catkin/PKGBUILD) [site](https://www.wiki.ros.org/catkin)
 
 ## Android ##
 
-* **SFML** - A simple, fast, cross-platform, and object-oriented multimedia API. [PKGBUILD](/home/user/projects/other/pkgbuilds/android/android-armv7a-eabi-sfml/PKGBUILD)
+* **SFML** - A simple, fast, cross-platform, and object-oriented multimedia API. [PKGBUILD](android/android-armv7a-eabi-sfml/PKGBUILD) [site](http://www.sfml-dev.org/)
+* **SFML (dev)** - A simple, fast, cross-platform, and object-oriented multimedia API (with debug information). [PKGBUILD](android/android-armv7a-eabi-sfml-dev/PKGBUILD) [site](http://www.sfml-dev.org/)

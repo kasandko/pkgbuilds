@@ -1,4 +1,4 @@
-_pkgname=sfml
+_pkgname=sfml-dev
 _android_arch=armv7a-eabi
 
 pkgname=android-$_android_arch-$_pkgname
@@ -8,12 +8,12 @@ pkgdesc="A simple, fast, cross-platform, and object-oriented multimedia API (for
 arch=('any')
 url="http://www.sfml-dev.org/"
 license=('zlib')
-depends=('android-ndk')
+depends=('android-ndk' "android-$_android_arch-sfml")
 makedepends=('cmake' 'git')
 provides=("android-$_android_arch-$_pkgname")
 conflicts=("android-$_android_archh-$_pkgname")
 replaces=("android-$_android_arch-$_pkgname")
-#options=('debug')
+options=('debug')
 
 options=(!strip)
 
@@ -48,10 +48,8 @@ build() {
         -DCMAKE_SYSTEM_NAME=Android \
         -DCMAKE_ANDROID_NDK=${ANDROID_NDK_HOME} \
         -DCMAKE_ANDROID_STL_TYPE=c++_static \
+        -DCMAKE_BUILD_TYPE=Debug \
         .
-        
-        # For debug version.
-#         -DCMAKE_BUILD_TYPE=Debug \
         
     make
 }
@@ -64,33 +62,33 @@ package() {
 #     make INSTALL_ROOT=${pkgdir} install
 
     # For debug version.
-#     libs=(
-#         libsfml-activity-d.so
-#         libsfml-audio-d.so
-#         libsfml-graphics-d.so
-#         libsfml-network-d.so
-#         libsfml-main-d.a
-#         libsfml-system-d.so
-#         libsfml-window-d.so
-#     )
+    libs=(
+        libsfml-activity-d.so
+        libsfml-audio-d.so
+        libsfml-graphics-d.so
+        libsfml-network-d.so
+        libsfml-main-d.a
+        libsfml-system-d.so
+        libsfml-window-d.so
+    )
     
     # For release version.
-    libs=(
-        libsfml-activity.so
-        libsfml-audio.so
-        libsfml-graphics.so
-        libsfml-network.so
-        libsfml-main.a
-        libsfml-system.so
-        libsfml-window.so
-    )
+#     libs=(
+#         libsfml-activity.so
+#         libsfml-audio.so
+#         libsfml-graphics.so
+#         libsfml-network.so
+#         libsfml-main.a
+#         libsfml-system.so
+#         libsfml-window.so
+#     )
     
     for index in ${!libs[*]}; do
         install -Dm644 ./lib/${libs[index]} ${pkgdir}${ANDROID_PREFIX_LIB}/${libs[index]}
     done
 
-    find ${pkgdir}/${ANDROID_PREFIX_LIB} -type f -name 'lib*.so' -exec ${ANDROID_STRIP} -g --strip-unneeded {} \;
+    #find ${pkgdir}/${ANDROID_PREFIX_LIB} -type f -name 'lib*.so' -exec ${ANDROID_STRIP} -g --strip-unneeded {} \;
     
-    mkdir -p ${pkgdir}${ANDROID_PREFIX_INCLUDE}
-    cp -R ./include/SFML ${pkgdir}${ANDROID_PREFIX_INCLUDE}
+    #mkdir -p ${pkgdir}${ANDROID_PREFIX_INCLUDE}
+    #cp -R ./include/SFML ${pkgdir}${ANDROID_PREFIX_INCLUDE}
 }
