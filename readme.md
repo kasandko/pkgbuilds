@@ -23,6 +23,7 @@ Different pkgbuilds for pacman based systems.
 * **Nana** - Cross-platform GUI library written in modern C++11. [PKGBUILD](msys2/mingw-w64-x86_64-nana/PKGBUILD) [site](http://nanapro.org/en-us/)
 * **Pygubu** - A simple GUI designer for the python tkinter module. [PKGBUILD](msys2/python-pygubu/PKGBUILD) [site](https://github.com/alejandroautalan/pygubu)
 * **RHVoice** - A free and open source speech synthesizer for Russian language. **(Not tested!)** [PKGBUILD](msys2/mingw-w64-x86_64-rhvoice/PKGBUILD) [site](https://github.com/Olga-Yakovleva/RHVoice)
+* ***hg-fast-export** - Mercurial to git converter using git-fast-import. [PKGBUILD](msys2/hg-fast-export/PKGBUILD) [site](https://github.com/frej/fast-export)
 * ***ROS*** - ROS Melodic for MSYS2/MinGW
     * **python-catkin_pkg** - catkin package library. [PKGBUILD](msys2/ROS/python-catkin_pkg/PKGBUILD) [site](http://wiki.ros.org/catkin_pkg)
     * **ros-build-tools-py3** - Utilities for building Arch packages for ROS stacks. [PKGBUILD](msys2/ROS/ros-build-tools-py3/PKGBUILD) [site](https://github.com/ros-melodic-arch/ros-build-tools-py3)
